@@ -1,1 +1,952 @@
-test
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>thisthatâ¢ Agency Command Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #34D6D1;
+    --teal-dark: #2AB8B3;
+    --teal-light: #E8FAFA;
+    --text: #212121;
+    --text-sec: #666666;
+    --bg: #F5F6F8;
+    --white: #FFFFFF;
+    --border: #E0E0E0;
+    --shadow: 0 2px 8px rgba(0,0,0,0.06);
+    --shadow-hover: 0 4px 16px rgba(0,0,0,0.10);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+  }
+
+  /* âââ Header âââ */
+  .header {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+    padding: 20px 24px 16px;
+    color: var(--white);
+  }
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .header-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .header-title {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  .header-contact {
+    font-size: 12px;
+    opacity: 0.8;
+    text-align: right;
+    line-height: 1.6;
+  }
+
+  /* âââ Navigation âââ */
+  .nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .nav-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .nav-btn {
+    padding: 12px 18px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-sec);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s;
+    white-space: nowrap;
+    font-family: inherit;
+  }
+  .nav-btn:hover { color: var(--teal-dark); }
+  .nav-btn.active {
+    border-bottom-color: var(--teal);
+    font-weight: 700;
+    color: var(--teal-dark);
+  }
+  .nav-icon { font-size: 14px; }
+
+  /* âââ Content âââ */
+  .content {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 24px 16px 48px;
+  }
+
+  /* âââ Cards âââ */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    transition: all 0.2s ease;
+  }
+  .card.hoverable:hover {
+    box-shadow: var(--shadow-hover);
+  }
+  .card.clickable {
+    cursor: pointer;
+  }
+  .card.no-pad { padding: 0; overflow: hidden; }
+
+  /* âââ Badges âââ */
+  .badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--teal-light);
+    color: var(--teal-dark);
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    display: inline-block;
+  }
+  .badge-ready { background: #E8F5E9; color: #2E7D32; }
+  .badge-draft { background: #FFF3E0; color: #E65100; }
+  .badge-planned { background: #E3F2FD; color: #1565C0; }
+  .badge-primary { background: #E8F5E9; color: #2E7D32; }
+  .badge-muted { background: #F5F5F5; color: var(--text-sec); }
+
+  /* âââ Section Headers âââ */
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .section-subtitle {
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--text-sec);
+  }
+
+  /* âââ Grid helpers âââ */
+  .grid-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 28px; }
+  .grid-tools { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+  .grid-platforms { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .grid-audiences { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .grid-kpi { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+
+  .flex-col { display: flex; flex-direction: column; gap: 10px; }
+
+  /* âââ Icon box âââ */
+  .icon-box {
+    width: 42px; height: 42px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .icon-box-lg { width: 44px; height: 44px; }
+
+  /* âââ Expand arrow âââ */
+  .expand-arrow {
+    font-size: 14px; color: var(--text-sec);
+    transition: transform 0.2s;
+    user-select: none;
+  }
+  .expand-arrow.open { transform: rotate(180deg); }
+
+  /* âââ Tabs âââ */
+  .tab-bar {
+    display: flex; gap: 4px; margin-bottom: 20px;
+    background: #EDEDEF; border-radius: 8px; padding: 3px;
+  }
+  .tab-btn {
+    flex: 1; padding: 8px 12px; border: none; border-radius: 6px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    background: transparent; color: var(--text-sec);
+    transition: all 0.15s; font-family: inherit;
+  }
+  .tab-btn.active {
+    background: var(--white); color: var(--text);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  /* âââ Search input âââ */
+  .search-input {
+    width: 100%; padding: 12px 16px;
+    border: 1px solid var(--border); border-radius: 8px;
+    font-size: 14px; outline: none; background: var(--white);
+    font-family: inherit;
+  }
+  .search-input:focus { border-color: var(--teal); }
+
+  /* âââ Quick action buttons âââ */
+  .quick-btn {
+    padding: 10px 18px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 600;
+    transition: all 0.15s; font-family: inherit;
+    background: transparent;
+  }
+  .quick-btn:hover { filter: brightness(0.95); }
+
+  /* âââ Category row âââ */
+  .cat-header {
+    padding: 16px 20px; cursor: pointer;
+    display: flex; align-items: center; gap: 14px;
+    background: var(--white); transition: background 0.15s;
+  }
+  .cat-header.expanded { background: var(--teal-light); }
+  .cat-items { border-top: 1px solid var(--border); }
+  .cat-item {
+    padding: 10px 20px 10px 78px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 13px;
+  }
+  .cat-item:not(:last-child) { border-bottom: 1px solid #F0F0F0; }
+
+  /* âââ Calendar row âââ */
+  .cal-header, .cal-row {
+    display: grid; grid-template-columns: 60px 1fr 130px; gap: 12px; align-items: center;
+  }
+  .cal-header {
+    padding: 14px 20px; background: #F8F8FA;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px; font-weight: 700; color: var(--text-sec);
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .cal-row { padding: 12px 20px; }
+  .cal-row:not(:last-child) { border-bottom: 1px solid #F0F0F0; }
+
+  /* âââ Pillar dot âââ */
+  .pillar-dot {
+    display: inline-block; width: 10px; height: 10px;
+    border-radius: 50%; margin-right: 6px; flex-shrink: 0;
+  }
+  .pillar-dot-lg { width: 14px; height: 14px; }
+
+  /* âââ Hashtag chip âââ */
+  .hashtag {
+    padding: 5px 10px; border-radius: 6px;
+    font-size: 13px; font-weight: 500; color: var(--text);
+    display: inline-block;
+  }
+
+  /* âââ Strain swatches âââ */
+  .swatch {
+    width: 44px; height: 44px; border-radius: 8px;
+    margin-bottom: 6px; display: flex; align-items: center; justify-content: center;
+  }
+
+  /* âââ Info box âââ */
+  .info-box {
+    padding: 14px; background: var(--teal-light);
+    border: 1px solid rgba(52,214,209,0.25);
+    border-radius: 12px; font-size: 12px; color: var(--teal-dark); line-height: 1.6;
+  }
+  .info-box strong { font-weight: 700; }
+
+  /* âââ Footer âââ */
+  .footer {
+    text-align: center; padding: 16px 0 24px;
+    font-size: 11px; color: #AAA;
+  }
+
+  /* âââ Utility âââ */
+  .text-center { text-align: center; }
+  .mb-20 { margin-bottom: 20px; }
+  .mb-24 { margin-bottom: 24px; }
+  .mb-28 { margin-bottom: 28px; }
+  .mt-12 { margin-top: 12px; }
+  .mt-24 { margin-top: 24px; }
+  .fw-700 { font-weight: 700; }
+  .fw-600 { font-weight: 600; }
+  .fw-500 { font-weight: 500; }
+  .mono { font-family: monospace; }
+
+  /* âââ Generate button âââ */
+  .gen-btn {
+    margin-top: 12px; padding: 8px 20px;
+    background: var(--teal); color: var(--white);
+    border: none; border-radius: 6px;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    font-family: inherit;
+  }
+  .gen-btn:hover { background: var(--teal-dark); }
+
+  /* âââ Doc rows âââ */
+  .doc-row {
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .doc-row:hover {
+    background: var(--teal-light);
+  }
+  .doc-row:hover span:last-child {
+    color: var(--teal-dark);
+  }
+  .doc-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  /* hide all views by default */
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* âââ Lock overlay âââ */
+  .nav-btn.locked { opacity: 0.4; pointer-events: none; }
+  .nav-btn.locked::after { content: ' ð'; font-size: 10px; }
+  body.unlocked .nav-btn.locked { opacity: 1; pointer-events: auto; }
+  body.unlocked .nav-btn.locked::after { content: ''; }
+
+  .unlock-bar {
+    background: #2A2A2A; color: #ccc; text-align: center;
+    padding: 8px 16px; font-size: 12px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .unlock-bar input {
+    padding: 5px 10px; border: 1px solid #555; border-radius: 5px;
+    background: #1a1a1a; color: #fff; font-size: 12px; width: 140px;
+    font-family: inherit; outline: none;
+  }
+  .unlock-bar input:focus { border-color: var(--teal); }
+  .unlock-bar button {
+    padding: 5px 14px; border: none; border-radius: 5px;
+    background: var(--teal); color: #fff; font-size: 12px;
+    font-weight: 600; cursor: pointer; font-family: inherit;
+  }
+  .unlock-bar button:hover { background: var(--teal-dark); }
+  .unlock-bar .lock-icon { font-size: 14px; }
+  body.unlocked .unlock-bar { display: none; }
+  .unlock-msg { color: #ff6b6b; font-size: 11px; margin-left: 8px; }
+  .unlocked-badge {
+    display: none; background: #2A2A2A; color: var(--teal);
+    text-align: center; padding: 6px 16px; font-size: 11px; font-weight: 600;
+  }
+  body.unlocked .unlocked-badge { display: flex; align-items: center; justify-content: center; gap: 6px; }
+</style>
+</head>
+<body>
+
+<!-- âââââââââââââââââââ HEADER âââââââââââââââââââ -->
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <div class="header-label">thisthatâ¢ design agency</div>
+      <div class="header-title">Agency Command Center</div>
+    </div>
+    <div class="header-contact">
+      <div>info@thisthatcbd.com</div>
+      <div>503-919-6918</div>
+    </div>
+  </div>
+</div>
+
+<!-- âââââââââââââââââââ NAVIGATION âââââââââââââââââââ -->
+<div class="nav">
+  <div class="nav-inner" id="mainNav">
+    <button class="nav-btn locked" data-view="home" data-locked><span class="nav-icon">â</span> Home</button>
+    <button class="nav-btn locked" data-view="assets" data-locked><span class="nav-icon">ð</span> Asset Library</button>
+    <button class="nav-btn" data-view="sales"><span class="nav-icon">ð</span> Sales Collateral</button>
+    <button class="nav-btn active" data-view="menus"><span class="nav-icon">ð</span> Menus</button>
+    <button class="nav-btn locked" data-view="social" data-locked><span class="nav-icon">ð±</span> Social Media</button>
+    <button class="nav-btn locked" data-view="brand" data-locked><span class="nav-icon">ð</span> Brand Guidelines</button>
+  </div>
+</div>
+
+<!-- âââââââââââââââââââ UNLOCK BAR âââââââââââââââââââ -->
+<div class="unlock-bar" id="unlockBar">
+  <span class="lock-icon">ð</span>
+  <span>Agency access:</span>
+  <input type="password" id="unlockInput" placeholder="Enter password" onkeydown="if(event.key==='Enter')attemptUnlock()">
+  <button onclick="attemptUnlock()">Unlock</button>
+  <span class="unlock-msg" id="unlockMsg"></span>
+</div>
+<div class="unlocked-badge">â Full Agency Access</div>
+
+<!-- âââââââââââââââââââ CONTENT âââââââââââââââââââ -->
+<div class="content">
+
+  <!-- âââââââââââ HOME VIEW âââââââââââ -->
+  <div class="view" id="view-home">
+    <!-- Stats -->
+    <div class="grid-stats">
+      <div class="card text-center" style="padding:16px">
+        <div style="font-size:28px;font-weight:800;color:var(--teal);margin-bottom:2px">120+</div>
+        <div style="font-size:13px;font-weight:600">Brand Assets</div>
+        <div style="font-size:11px;color:var(--text-sec)">Logos, renders, templates</div>
+      </div>
+      <div class="card text-center" style="padding:16px">
+        <div style="font-size:28px;font-weight:800;color:#7C4DFF;margin-bottom:2px">6</div>
+        <div style="font-size:13px;font-weight:600">Product Lines</div>
+        <div style="font-size:11px;color:var(--text-sec)">Flower, Gummies, Dabs, Dispos, Carts, Drippers</div>
+      </div>
+      <div class="card text-center" style="padding:16px">
+        <div style="font-size:28px;font-weight:800;color:#FF6D00;margin-bottom:2px">5</div>
+        <div style="font-size:13px;font-weight:600">Sales Tools</div>
+        <div style="font-size:11px;color:var(--text-sec)">3 ready, 2 planned</div>
+      </div>
+      <div class="card text-center" style="padding:16px">
+        <div style="font-size:28px;font-weight:800;color:#E91E63;margin-bottom:2px">4</div>
+        <div style="font-size:13px;font-weight:600">Social Platforms</div>
+        <div style="font-size:11px;color:var(--text-sec)">Instagram, TikTok, Facebook, YouTube</div>
+      </div>
+    </div>
+
+    <!-- Agency Tools -->
+    <div class="section-header">
+      <div>
+        <div class="section-title">Agency Tools</div>
+        <div class="section-subtitle">Everything you need to manage the thisthat brand</div>
+      </div>
+    </div>
+    <div class="grid-tools">
+      <div class="card hoverable clickable" onclick="navigateTo('assets')">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <div class="icon-box" style="background:rgba(52,214,209,0.08)">ð</div>
+          <div style="font-size:16px;font-weight:700">Asset Library</div>
+        </div>
+        <div style="font-size:13px;color:var(--text-sec);line-height:1.5">Browse and manage all brand assets â logos, fonts, renders, packaging files, photography, and templates</div>
+        <div style="margin-top:12px;font-size:12px;font-weight:600;color:var(--teal)">Open â</div>
+      </div>
+      <div class="card hoverable clickable" onclick="navigateTo('sales')">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <div class="icon-box" style="background:rgba(124,77,255,0.08)">ð</div>
+          <div style="font-size:16px;font-weight:700">Sales Collateral</div>
+        </div>
+        <div style="font-size:13px;color:var(--text-sec);line-height:1.5">Line sheets, sell sheets, pitch decks, and retail onboarding materials</div>
+        <div style="margin-top:12px;font-size:12px;font-weight:600;color:#7C4DFF">Open â</div>
+      </div>
+      <div class="card hoverable clickable" onclick="navigateTo('social')">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <div class="icon-box" style="background:rgba(255,109,0,0.08)">ð±</div>
+          <div style="font-size:16px;font-weight:700">Social Media Toolkit</div>
+        </div>
+        <div style="font-size:13px;color:var(--text-sec);line-height:1.5">Content pillars, weekly calendar, caption ideas, and hashtag strategy</div>
+        <div style="margin-top:12px;font-size:12px;font-weight:600;color:#FF6D00">Open â</div>
+      </div>
+      <div class="card hoverable clickable" onclick="navigateTo('brand')">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <div class="icon-box" style="background:rgba(233,30,99,0.08)">ð</div>
+          <div style="font-size:16px;font-weight:700">Brand Guidelines</div>
+        </div>
+        <div style="font-size:13px;color:var(--text-sec);line-height:1.5">Generate custom brand guideline PDFs and email them to partners, vendors, or retailers</div>
+        <div style="margin-top:12px;font-size:12px;font-weight:600;color:#E91E63">Open â</div>
+      </div>
+    </div>
+
+    <!-- Brand Quick Reference -->
+    <div class="mt-24">
+      <div class="section-header"><div><div class="section-title">Brand Quick Reference</div></div></div>
+      <div class="card" style="padding:24px">
+        <!-- Colors row -->
+        <div style="display:flex;flex-wrap:wrap;gap:32px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid #F0F0F0">
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--text-sec);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Brand Colors</div>
+            <div style="display:flex;gap:12px">
+              <div class="text-center">
+                <div class="swatch" style="background:#34D6D1;border:1px solid var(--border)"></div>
+                <div style="font-size:11px;font-weight:500;margin-bottom:1px">Teal</div>
+                <div style="font-size:10px;color:var(--text-sec);font-family:monospace;margin-bottom:2px">#34D6D1</div>
+                <div style="font-size:9px;color:#E65100;font-weight:600">Web & email only</div>
+              </div>
+              <div class="text-center">
+                <div class="swatch" style="background:#212121;border:1px solid var(--border)"></div>
+                <div style="font-size:11px;font-weight:500;margin-bottom:1px">Dark</div>
+                <div style="font-size:10px;color:var(--text-sec);font-family:monospace;margin-bottom:2px">#212121</div>
+                <div style="font-size:9px;color:var(--text-sec)">All uses</div>
+              </div>
+              <div class="text-center">
+                <div class="swatch" style="background:#FFFFFF;border:1px solid var(--border)"></div>
+                <div style="font-size:11px;font-weight:500;margin-bottom:1px">White</div>
+                <div style="font-size:10px;color:var(--text-sec);font-family:monospace;margin-bottom:2px">#FFFFFF</div>
+                <div style="font-size:9px;color:var(--text-sec)">All uses</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--text-sec);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Strain Colors</div>
+            <div style="display:flex;gap:12px">
+              <div class="text-center">
+                <div class="swatch" style="background:#FCE4EC;border:1px solid rgba(194,24,91,0.19)"><span style="font-size:12px;font-weight:700;color:#C2185B">I</span></div>
+                <div style="font-size:11px;font-weight:500;color:#C2185B">Indica</div>
+              </div>
+              <div class="text-center">
+                <div class="swatch" style="background:#FFF8E1;border:1px solid rgba(245,127,23,0.19)"><span style="font-size:12px;font-weight:700;color:#F57F17">S</span></div>
+                <div style="font-size:11px;font-weight:500;color:#F57F17">Sativa</div>
+              </div>
+              <div class="text-center">
+                <div class="swatch" style="background:#E8F5E9;border:1px solid rgba(46,125,50,0.19)"><span style="font-size:12px;font-weight:700;color:#2E7D32">H</span></div>
+                <div style="font-size:11px;font-weight:500;color:#2E7D32">Hybrid</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Typography + Differentiator row -->
+        <div style="display:flex;flex-wrap:wrap;gap:32px">
+          <div style="flex:1 1 200px;min-width:180px">
+            <div style="font-size:11px;font-weight:600;color:var(--text-sec);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Typography</div>
+            <div style="font-size:13px;line-height:1.9">
+              <div><strong>Print:</strong> Kimberley BL + Helvetica family</div>
+              <div><strong>Web:</strong> Anton (headings) + Roboto (body)</div>
+            </div>
+          </div>
+          <div style="flex:2 1 300px;min-width:220px">
+            <div style="font-size:11px;font-weight:600;color:var(--text-sec);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Key Differentiator</div>
+            <div style="font-size:13px;line-height:1.6">
+              True live resin & solventless live rosin. No distillate blends. No synthetic cannabinoids. Pure, single-source THCA & Delta-9.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- âââââââââââ ASSET LIBRARY VIEW âââââââââââ -->
+  <div class="view" id="view-assets">
+    <div class="section-header">
+      <div>
+        <div class="section-title">Asset Library</div>
+        <div class="section-subtitle">126+ assets organized across 6 categories</div>
+      </div>
+    </div>
+
+    <div class="mb-20">
+      <input type="text" class="search-input" id="assetSearch" placeholder="Search assets... (e.g. logo, Anton, mylar, lifestyle)" oninput="filterAssets()">
+    </div>
+
+    <div class="info-box mb-20">
+      <strong>Google Drive â</strong> Agency Shared Assets folder contains: Logos, Fonts, Renders, Flower Images, Lifestyle Content. Packaging files are in the Packaging folder. Vendor-specific files are in zVendor Files.
+    </div>
+
+    <div class="flex-col" id="assetList"></div>
+  </div>
+
+  <!-- âââââââââââ SALES COLLATERAL VIEW âââââââââââ -->
+  <div class="view" id="view-sales">
+    <div class="section-header">
+      <div>
+        <div class="section-title">Sales Collateral</div>
+        <div class="section-subtitle">Tools and materials for wholesale, retail, and partner outreach</div>
+      </div>
+    </div>
+
+    <!-- Quick actions -->
+    <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+      <button class="quick-btn" style="border-color:rgba(52,214,209,0.19);background:rgba(52,214,209,0.03);color:var(--teal)">ð Generate Line Sheet</button>
+      <button class="quick-btn" style="border-color:rgba(124,77,255,0.19);background:rgba(124,77,255,0.03);color:#7C4DFF">ð Create Sell Sheet</button>
+      <button class="quick-btn" style="border-color:rgba(255,109,0,0.19);background:rgba(255,109,0,0.03);color:#FF6D00">ð¯ Build Pitch Deck</button>
+    </div>
+
+    <!-- KPI box -->
+    <div class="card mb-20" style="padding:16px;background:linear-gradient(135deg,rgba(52,214,209,0.06) 0%,rgba(52,214,209,0.02) 100%);border-color:rgba(52,214,209,0.19)">
+      <div style="font-size:12px;font-weight:700;color:var(--teal-dark);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Key Selling Points</div>
+      <div class="grid-kpi">
+        <div class="text-center"><div style="font-size:22px;font-weight:800;color:var(--teal-dark)">80-94%</div><div style="font-size:11px;color:var(--text-sec)">Total cannabinoids in vapes</div></div>
+        <div class="text-center"><div style="font-size:22px;font-weight:800;color:var(--teal-dark)">25-39%</div><div style="font-size:11px;color:var(--text-sec)">THCa in flower products</div></div>
+        <div class="text-center"><div style="font-size:22px;font-weight:800;color:var(--teal-dark)">100%</div><div style="font-size:11px;color:var(--text-sec)">Single-source, strain-specific</div></div>
+        <div class="text-center"><div style="font-size:22px;font-weight:800;color:var(--teal-dark)">0%</div><div style="font-size:11px;color:var(--text-sec)">Distillate, synthetics, or blends</div></div>
+      </div>
+    </div>
+
+    <div class="flex-col" id="salesList"></div>
+  </div>
+
+  <!-- âââââââââââ MENUS VIEW âââââââââââ -->
+  <div class="view active" id="view-menus">
+    <div class="section-header">
+      <div>
+        <div class="section-title">Wholesale Menus</div>
+        <div class="section-subtitle">Current product menus for wholesale accounts â always links to the latest version on Google Drive</div>
+      </div>
+    </div>
+
+    <div class="info-box mb-20">
+      <strong>Note:</strong> These open directly from Google Drive so you always see the most current version. Filenames include the date they were last updated (YYMMDD format).
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:14px">
+      <!-- Wholesale Menu -->
+      <a href="https://drive.google.com/drive/folders/1c-aGDOUeh7Wn3YLBjpiy1YGPF8Og6uLA" target="_blank" class="card hoverable" style="text-decoration:none;color:var(--text);cursor:pointer">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+          <div class="icon-box" style="background:rgba(52,214,209,0.08);font-size:24px">ð</div>
+          <div>
+            <div style="font-size:16px;font-weight:700">Wholesale Menu</div>
+            <span class="badge badge-ready">Current</span>
+          </div>
+        </div>
+        <div style="font-size:13px;color:var(--text-sec);line-height:1.5;margin-bottom:8px">Full product lineup with all SKUs, sizes, and pricing for wholesale accounts nationwide.</div>
+        <div style="font-size:12px;color:var(--text-sec);margin-bottom:8px"><strong>File:</strong> <span class="mono" style="font-size:11px">thisthat_wholesale_full_260210.pdf</span></div>
+        <div style="font-size:12px;color:var(--text-sec)"><strong>Updated:</strong> Feb 10, 2026 &nbsp;Â·&nbsp; <strong>Size:</strong> 1.4 MB</div>
+        <div style="margin-top:12px;font-size:12px;font-weight:600;color:var(--teal)">Open on Drive â</div>
+      </a>
+
+      <!-- Texas Wholesale Menu -->
+      <a href="https://drive.google.com/drive/folders/1c-aGDOUeh7Wn3YLBjpiy1YGPF8Og6uLA" target="_blank" class="card hoverable" style="text-decoration:none;color:var(--text);cursor:pointer">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+          <div class="icon-box" style="background:rgba(255,109,0,0.08);font-size:24px">ð</div>
+          <div>
+            <div style="font-size:16px;font-weight:700">Texas Wholesale Menu</div>
+            <span class="badge" style="background:#FFF3E0;color:#E65100">Texas-Specific</span>
+          </div>
+        </div>
+        <div style="font-size:13px;color:var(--text-sec);line-height:1.5;margin-bottom:8px">Texas-compliant product menu with state-specific SKUs and regulatory requirements.</div>
+        <div style="font-size:12px;color:var(--text-sec);margin-bottom:8px"><strong>File:</strong> <span class="mono" style="font-size:11px">thisthat_wholesale_full_texas_260210.pdf</span></div>
+        <div style="font-size:12px;color:var(--text-sec)"><strong>Updated:</strong> Feb 10, 2026 &nbsp;Â·&nbsp; <strong>Size:</strong> 1.1 MB</div>
+        <div style="margin-top:12px;font-size:12px;font-weight:600;color:#FF6D00">Open on Drive â</div>
+      </a>
+
+      <!-- Bulk Menu -->
+      <a href="https://drive.google.com/drive/folders/14TUCVKmo6s2QdMyzQS1hWpR-ucZf3IoG" target="_blank" class="card hoverable" style="text-decoration:none;color:var(--text);cursor:pointer">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+          <div class="icon-box" style="background:rgba(124,77,255,0.08);font-size:24px">ð</div>
+          <div>
+            <div style="font-size:16px;font-weight:700">Bulk Menu</div>
+            <span class="badge" style="background:#E3F2FD;color:#1565C0">Bulk Pricing</span>
+          </div>
+        </div>
+        <div style="font-size:13px;color:var(--text-sec);line-height:1.5;margin-bottom:8px">Bulk order pricing and volume discount menu for large wholesale and distribution accounts.</div>
+        <div style="font-size:12px;color:var(--text-sec);margin-bottom:8px"><strong>File:</strong> <span class="mono" style="font-size:11px">thisthat_wholesale_bulkmenu_260323.pdf</span></div>
+        <div style="font-size:12px;color:var(--text-sec)"><strong>Updated:</strong> Mar 23, 2026 &nbsp;Â·&nbsp; <strong>Size:</strong> 157 KB</div>
+        <div style="margin-top:12px;font-size:12px;font-weight:600;color:#7C4DFF">Open on Drive â</div>
+      </a>
+    </div>
+
+    <div class="mt-24">
+      <div class="section-header"><div><div class="section-title">Drive Folders</div><div class="section-subtitle">Where the menu files live on Google Drive</div></div></div>
+      <div class="card no-pad">
+        <a href="https://drive.google.com/drive/folders/1c-aGDOUeh7Wn3YLBjpiy1YGPF8Og6uLA" target="_blank" class="doc-row" style="border-bottom:1px solid #F0F0F0">
+          <div style="display:flex;align-items:center;gap:8px;flex:1">
+            <span class="doc-icon">ð</span>
+            <span style="font-size:13px;font-weight:500">Menus</span>
+            <span style="font-size:11px;color:var(--text-sec)">â Wholesale + Texas menus</span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="badge badge-muted">Shared by Frank</span>
+            <span style="font-size:12px;color:var(--teal);font-weight:600">Open â</span>
+          </div>
+        </a>
+        <a href="https://drive.google.com/drive/folders/14TUCVKmo6s2QdMyzQS1hWpR-ucZf3IoG" target="_blank" class="doc-row">
+          <div style="display:flex;align-items:center;gap:8px;flex:1">
+            <span class="doc-icon">ð</span>
+            <span style="font-size:13px;font-weight:500">Menus - Bulk</span>
+            <span style="font-size:11px;color:var(--text-sec)">â Bulk pricing menu</span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="badge badge-muted">Shared by Frank</span>
+            <span style="font-size:12px;color:var(--teal);font-weight:600">Open â</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- âââââââââââ SOCIAL MEDIA VIEW âââââââââââ -->
+  <div class="view" id="view-social">
+    <div class="section-header">
+      <div>
+        <div class="section-title">Social Media Toolkit</div>
+        <div class="section-subtitle">Content strategy, scheduling framework, and brand voice for social</div>
+      </div>
+    </div>
+
+    <div class="tab-bar" id="socialTabs">
+      <button class="tab-btn active" data-tab="pillars">Content Pillars</button>
+      <button class="tab-btn" data-tab="calendar">Weekly Calendar</button>
+      <button class="tab-btn" data-tab="hashtags">Hashtag Strategy</button>
+      <button class="tab-btn" data-tab="platforms">Platforms</button>
+    </div>
+
+    <div id="social-pillars" class="social-tab"></div>
+    <div id="social-calendar" class="social-tab" style="display:none"></div>
+    <div id="social-hashtags" class="social-tab" style="display:none"></div>
+    <div id="social-platforms" class="social-tab" style="display:none"></div>
+  </div>
+
+  <!-- âââââââââââ BRAND GUIDELINES VIEW âââââââââââ -->
+  <div class="view" id="view-brand">
+    <div class="section-header">
+      <div>
+        <div class="section-title">Brand Guidelines Generator</div>
+        <div class="section-subtitle">Create custom brand guideline PDFs tailored by audience, then email them directly</div>
+      </div>
+    </div>
+
+    <div class="info-box mb-20" style="font-size:13px">
+      <strong>How it works:</strong> Select an audience type below, choose which sections to include, add a recipient, and Claude will generate a custom PDF and draft an email with the guidelines attached.
+    </div>
+
+    <div class="grid-audiences">
+      <div class="card hoverable clickable text-center" style="padding:20px">
+        <div style="font-size:28px;margin-bottom:8px">ð¦</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:4px">Wholesale Partner</div>
+        <div style="font-size:12px;color:var(--text-sec)">Product specs, sizes, case packs, menus, brand story</div>
+      </div>
+      <div class="card hoverable clickable text-center" style="padding:20px">
+        <div style="font-size:28px;margin-bottom:8px">ðª</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:4px">Retail / Dispensary</div>
+        <div style="font-size:12px;color:var(--text-sec)">Brand overview, products, voice, social, and display info</div>
+      </div>
+      <div class="card hoverable clickable text-center" style="padding:20px">
+        <div style="font-size:28px;margin-bottom:8px">ð¨</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:4px">Designer / Vendor</div>
+        <div style="font-size:12px;color:var(--text-sec)">Visual identity, colors, fonts, assets, voice guidelines</div>
+      </div>
+      <div class="card hoverable clickable text-center" style="padding:20px">
+        <div style="font-size:28px;margin-bottom:8px">ð</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:4px">Full Guidelines</div>
+        <div style="font-size:12px;color:var(--text-sec)">Everything â complete brand guidelines document</div>
+      </div>
+    </div>
+
+    <div class="card text-center" style="padding:20px">
+      <div style="font-size:14px;color:var(--text-sec);margin-bottom:12px">The full interactive Brand Guidelines Dashboard is available as a separate tool.</div>
+      <div style="font-size:13px;line-height:1.6">Tell Claude: <em>"Open the brand guidelines dashboard"</em> or <em>"Generate brand guidelines for [audience]"</em></div>
+    </div>
+
+    <div class="mt-24">
+      <div class="section-header"><div><div class="section-title">Documents</div><div class="section-subtitle">Brand files available in the workspace</div></div></div>
+      <div class="card no-pad" id="docList"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- âââââââââââââââââââ FOOTER âââââââââââââââââââ -->
+<div class="footer">thisthatâ¢ Agency Command Center v1.0 â Built by thisthat Design Agency</div>
+
+<script>
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
+// DATA
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
+
+const ASSET_CATEGORIES = [
+  { id:"logos", label:"Logos", icon:"â", count:12,
+    description:"Full Vertical, Combined Horizontal â all color variants (.ai, .eps, .png, .jpg)",
+    items:[
+      {name:"Full Vertical â Black (K)",type:".ai / .eps / .png",primary:true},
+      {name:"Full Vertical â White (KW1)",type:".ai / .eps / .png",primary:true},
+      {name:"Combined Horizontal â Black (K)",type:".ai / .eps / .png",primary:false},
+      {name:"Combined Horizontal â White (KW)",type:".ai / .eps / .png",primary:false},
+      {name:"Combined Horizontal â White Alt",type:".ai / .eps / .png",primary:false},
+      {name:"Puffin Mascot â Standalone",type:".ai / .png",primary:false},
+    ]},
+  { id:"fonts", label:"Fonts", icon:"Aa", count:6,
+    description:"Print and web typefaces with usage guidelines",
+    items:[
+      {name:"Kimberley BL",type:"Display / Print",primary:true,note:"Headlines, packaging"},
+      {name:"Helvetica Black",type:"Print Body",primary:true,note:"Subheads, emphasis"},
+      {name:"Helvetica Condensed",type:"Print Body",primary:false,note:"Product specs, fine print"},
+      {name:"Anton",type:"Web â Google Font",primary:true,note:"Headings, buttons (UPPERCASE)"},
+      {name:"Roboto",type:"Web â Google Font",primary:false,note:"Body text, descriptions"},
+    ]},
+  { id:"renders", label:"Product Renders", icon:"ð¨", count:30,
+    description:"3D product renders by SKU â packaged and unpackaged views",
+    items:[
+      {name:"Flower â 3.5g Mylar Bag",type:".png (transparent)",primary:true},
+      {name:"Flower â 7g / 14g / 28g Mylar",type:".png (transparent)",primary:false},
+      {name:"Gummies â 5mg Box (3ct / 30ct)",type:".png (transparent)",primary:true},
+      {name:"Gummies â 25mg Box (3ct / 30ct)",type:".png (transparent)",primary:false},
+      {name:"Disposable Vape â 1G / 2G",type:".png (transparent)",primary:true},
+      {name:"Live Rosin Dab Jar â 1G",type:".png (transparent)",primary:false},
+      {name:"510 Cart â 1G",type:".png (transparent)",primary:false},
+      {name:"Dripper â 1G",type:".png (transparent)",primary:false},
+    ]},
+  { id:"packaging", label:"Packaging Files", icon:"ð¦", count:20,
+    description:"Dielines, print-ready files, and packaging specs by product line",
+    items:[
+      {name:"Flower Mylar â All Sizes",type:".ai / .pdf",primary:true},
+      {name:"Gummy Boxes â 5mg & 25mg",type:".ai / .pdf",primary:true},
+      {name:"Dab Jar Labels",type:".ai / .pdf",primary:false},
+      {name:"Vape Packaging â Dispos & Carts",type:".ai / .pdf",primary:false},
+      {name:"Dripper Box",type:".ai / .pdf",primary:false},
+      {name:"Shipping Labels & Inserts",type:".ai / .pdf",primary:false},
+    ]},
+  { id:"lifestyle", label:"Lifestyle & Photography", icon:"ð¸", count:50,
+    description:"Product photography, lifestyle shots, and social-ready images",
+    items:[
+      {name:"Product Flatlay Collection",type:".jpg / .png",primary:true},
+      {name:"Lifestyle â In-Use Shots",type:".jpg",primary:true},
+      {name:"Strain Close-Ups (Macro)",type:".jpg",primary:false},
+      {name:"Retail Display Photos",type:".jpg",primary:false},
+      {name:"Event / Pop-Up Photos",type:".jpg",primary:false},
+    ]},
+  { id:"templates", label:"Templates", icon:"ð", count:8,
+    description:"Reusable design templates for common collateral",
+    items:[
+      {name:"Instagram Post (1080Ã1080)",type:".psd / .ai",primary:true},
+      {name:"Instagram Story (1080Ã1920)",type:".psd / .ai",primary:true},
+      {name:"Email Header Banner",type:".psd / .ai",primary:false},
+      {name:"Trade Show Banner",type:".ai",primary:false},
+      {name:"Business Card",type:".ai",primary:false},
+      {name:"Letterhead",type:".ai / .docx",primary:false},
+    ]},
+];
+
+const SALES_TOOLS = [
+  { id:"linesheet", label:"Wholesale Line Sheet", icon:"ð", status:"ready",
+    description:"One-page product overview with all SKUs, sizes, and case pack counts. Perfect for trade shows and sales meetings.",
+    details:["All 6 product lines with hero images","Sizes, case packs, and unit counts","Strain color-coded (Indica / Sativa / Hybrid)","Contact info and ordering details"]},
+  { id:"sellsheets", label:"Product Sell Sheets", icon:"ð", status:"ready",
+    description:"Individual one-pagers per product line with detailed specs, quality callouts, and competitive differentiators.",
+    details:["Flower â THCA potency 25-39%, living soil grown","Gummies â Delta-9, 5mg & 25mg options","Vapes â True live resin, 80-94% cannabinoids","Dabs â Solventless live rosin","Drippers â Liquid THCA"]},
+  { id:"pitchdeck", label:"Retail Pitch Deck", icon:"ð¯", status:"ready",
+    description:"Presentation for pitching thisthat to new retail partners and dispensaries. Covers brand story, product quality, competitive advantage, and partnership terms.",
+    details:["Brand story and mission","Product quality differentiators","Market positioning vs. competitors","Retail display and merchandising support","Partnership and ordering info"]},
+  { id:"retailkit", label:"New Retailer Onboarding Kit", icon:"ðª", status:"planned",
+    description:"Welcome packet for new retail partners with everything theyYYÈ\Ü^H[Ù[\Ý]ÙXÝË]Z[ÎÈÙ[ÛÛYH]\ÛHHX[H\Ü^HÝZY[[\È[[ÙÜ[HÙXÝÛÝÛYÙHÚX]ÚY]\ÝYX\Ù][ÈX]\X[È[Ü\ØÙ\ÜÈ[ÛÛXÝÈ_KÈY]XØ\X[ÛÛ\]]]H]XØ\XÛÛ¸¦¥;î#ÈÝ]\Î[Y\ØÜ\[Û]ZXÚË\Y\[ÙHÛÛ\\\ÛÛÚY]ÚÝÚ[ÈÝÈ\Ý]ÝXÚÜÈ\YØZ[ÝÙ^HÛÛ\]]ÜÈÛ]X[]K^XÝ[Û[XÚ[Ë]Z[ÎÈÚYKXK\ÚYHËÜËMHÛÛ\]]ÜÈ^XÝ[ÛY]ÙÛÛ\\\ÛÛÝ[ÞH[\]H]HÙ^HØXÝ[Û[\È_KNÂÛÛÝÓÓSÔSTÈHÂÈYÙXÝX[ÙXÝÜÝYÚÛÛÜÌÍ
+H\ØÜ\[ÛÚÝØØ\ÙH[]YX[ÙXÝË]ÈÜËÝZ[YÚYÚÈ^[\\ÎÈ]ÈÝZ[Ü[Ý[Ù[Y[ÙXÝÛÜÙK]\Ú]ÜXÜÈ^XÝ[ÛØÙ\ÜÈZ[]K\ØÙ[\È_KÈYYXØ][ÛX[YXØ][ÛÛÛÜÍÐÍ\ØÜ\[ÛXXÚ[Ý\]YY[ÙHXÝ]]X[]KØ[X[ÚYË[Ú]XZÙ\È\Ý]Y\[^[\\ÎÈ]H\Ú[Ë\Ý[]H^Z[YÚ]\ÈÐOÈ]ZXÚÈ^Z[\][ÈÛÚ[ÜÝÚ[È8 %ÚH]X]\È_KÈYY\Ý[HX[Y\Ý[H	Ý[\HÛÛÜÑ\ØÜ\[ÛÚÝÈHXH8 %X[[ÜKX[[ÛY[ËÛÛ[][]HÝ[\H^[\\ÎÈ^KZ[]K[YHÛÛ[Ý\ÝÛY\X]\\È[]Y]ÜÈ][[Ü]\XØ\È_KÈYZ[X[Z[H[ÛÛÜÑNLQMÈ\ØÜ\[Û[XÚÈHÝ\Z[ÛHX[KØÙ\ÜË[[Y\È^[\\ÎÈX[H[ÜÈ[^KX]]ÛÜÈXÚØYÚ[È[ÙXÝ[ÛØÙ\ÜÈ[ÝÜH[Z\ÜÚ[Û[ÛY[È_KNÂÛÛÝÐSSTÕÑQRÈHÂÙ^N[Û[\ÙXÝÜÝÙXÝÜÝYÚ8 %\ÈÚÝ
+ÈÜXÜÈÜX]YYÜÝKÙ^NYH[\YXØ][ÛÜÝYXØ][Û[Ø\Ý\Ù[ÜY[ÜX]Ø\Ý\Ù[ÈY[KÙ^NÙY[\Y\Ý[HÜÝY\Ý[HÛÛ[8 %\Ù\YÙ[\]YÜÛÛ[][]HÜX]ÝÜH
+ÈYYKÙ^NH[\ÙXÝÜÝÝZ[ÙHÙYZÈÜ]ÈÜX\Ù\ÜX]Y[KÙ^NH[\Z[ÜÝZ[HØÙ[\È8 %ØÙ\ÜËX[KÜÝ[\HÜX]ÝÜHÈY[KÙ^NØ][\Y\Ý[HÜÝÙYZÙ[X\È8 %[^YY\Ý[HÛÛ[ÜX]ÝÜHKÙ^NÝ[[\YXØ][ÛÜÝ]ZXÚÈ\Ü^]X\Ý\ÜX]YYÜÝÈÝÜHKNÂÛÛÝTÒQ×ÔÑUÈHÂÛÜNÛX[ÛÜH[ÛÛÜÌÍ
+HYÜÎÈÝ\Ý]Ý\Ý]ØÔÜÛR[ÑY[QÜÛÝH_KÙXÝÛX[ÙXÝ	Ø]YÛÜHÛÛÜÍÐÍYÜÎÈÕÐHÓ]T\Ú[Ó]TÜÚ[ÔÛÛ[\ÜÈÒ[\\]YÑ[NQÝ[[ZY\È_KÛÛ[][]NÛX[ÛÛ[][]H	Ý[\HÛÛÜÑYÜÎÈÐØ[X\ÐÛÛ[][]HÐØ[PÝ[\HÐØ[X\ÛY\Ý[HÔÝÛ\[H_K]X[]NÛX[]X[]H	ØÙ\ÜÈÛÛÜÌMÑÌYÜÎÈÐÛX[Ø[X\ÈÓÑ\Ý[]HÓ][ÔÛÚ[ÔÚ[ÛTÛÝ\ÙHÔ\PØ[X\È_KNÂÛÛÝUÔTÈHÂÚY[ÝYÜ[HX[[ÝYÜ[H[N\Ý]ØXÛÛ¼'äíÈKÚYZÝÚÈX[ZÕÚÈ[N\Ý]ØXÛÛ¼'ã­HKÚYXÙXÛÚÈX[XÙXÛÚÈ[N\Ý]ØXÛÛ¼'äiHKÚY[Ý]XHX[[ÝUXH[N\Ý]ØXÛÛ¸¥­»î#ÈKNÂÛÛÝÐÕSQSÈHÂÛ[YN\Ý]Ð[ÑÝZY[[\×ÝKKØÞ\NÛÜ]NX\[N\Ý]Ð[ÑÝZY[[\×ÝKKØÞKÛ[YN\Ý]Ð[ÑÝZY[[\×ÝKK\N]NX\[N\Ý]Ð[ÑÝZY[[\×ÝKKKÛ[YN\Ý]Ð[ÑÝZY[[\×Ñ[Ë\N]NX\Ë[N\Ý]Ð[ÑÝZY[[\×Ñ[ËKÛ[YN\Ý]ÔÙXÝÐØ][ÙËÞ\N^Ù[]NX\[N\Ý]ÔÙXÝÐØ][ÙËÞKÛ[YN\Ý]ÔÙXÝÑ\ØÜ\[ÛËØÞ\NÛÜ]NX\[N\Ý]ÔÙXÝÑ\ØÜ\[ÛËØÞKNÂËÈ8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥dËÈÕUBËÈ8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d]^[Y\ÜÙ]Ø]H[Â]^[YØ[\ÕÛÛH[ÂËÈ8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥dËÈUQÐUSÓËÈ8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d[Ý[Û]YØ]UÊY]ÒY
+HÂØÝ[Y[]Y\TÙ[XÝÜ[
+	ËY]ÉÊKÜXXÚ
+OÛ\ÜÓ\Ý[[ÝJ	ØXÝ]IÊJNÂØÝ[Y[]Y\TÙ[XÝÜ[
+	Ë]XÊKÜXXÚ
+OÛ\ÜÓ\Ý[[ÝJ	ØXÝ]IÊJNÂØÝ[Y[Ù][[Y[RY
+	ÝY]ËIÈ
+ÈY]ÒY
+KÛ\ÜÓ\ÝY
+	ØXÝ]IÊNÂØÝ[Y[]Y\TÙ[XÝÜ	Ë]XÙ]K]Y]ÏHÈ
+ÈY]ÒY
+È	ÈIÊKÛ\ÜÓ\ÝY
+	ØXÝ]IÊNÂÚ[ÝËØÜÛÊÝÜZ][Ü	ÜÛ[ÛÝ	ßJNÂBØÝ[Y[Ù][[Y[RY
+	ÛXZ[]ÊKY][\Ý[\	ØÛXÚÉËHOÂÛÛÝHK\Ù]ÛÜÙ\Ý
+	Ë]XÊNÂY
+XH]\Â]YØ]UÊ]\Ù]Y]ÊNÂJNÂËÈ8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥dËÈTÔÑUPTBËÈ8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d[Ý[Û[\\ÜÙ]Ê[\HÂÛÛÝ\HH
+[\	ÉÊKÓÝÙ\Ø\ÙJ
+NÂÛÛÝØ]ÈHTÔÑUÐÐUQÓÔQTË[\Ø]OÂY
+]\JH]\YNÂ]\Ø]X[ÓÝÙ\Ø\ÙJ
+K[ÛY\Ê\JHØ]\ØÜ\[ÛÓÝÙ\Ø\ÙJ
+K[ÛY\Ê\JHØ]][\ËÛÛYJHOK[YKÓÝÙ\Ø\ÙJ
+K[ÛY\Ê\JJNÂJNÂÛÛÝÛÛZ[\HØÝ[Y[Ù][[Y[RY
+	Ø\ÜÙ]\Ý	ÊNÂÛÛZ[\[\SHØ]ËX\
+Ø]OÂÛÛÝ\Ñ^[YH^[Y\ÜÙ]Ø]OOHØ]YÂÛÛÝXY\ÈH\Ñ^[YÈ	Ý\K]X[[YÚ
+IÈ	Ý\K]Ú]JIÎÂÛÛÝXÛÛÈH\Ñ^[YÈ	ÜØJ
+LMKMJIÈ	ÈÑQQIÎÂ]\]Û\ÜÏHØ\Ë\Y]Û\ÜÏHØ]ZXY\Ú\Ñ^[YÈ	È^[Y	È	ÉßHÛÛXÚÏHÙÙÛP\ÜÙ]Ø]
+	ÉØØ]YIÊH]Û\ÜÏHXÛÛXÞXÛÛXÞ[ÈÝ[OHXÚÙÜÝ[ÚXÛÛßHØØ]XÛÛOÙ]]Ý[OH^H]Ý[OHÛ\Ú^NM\ÙÛ]ÙZYÚÌØØ]X[OÙ]]Ý[OHÛ\Ú^NLØÛÛÜ\K]^\ÙXÊNÛX\Ú[]ÜØØ]\ØÜ\[ÛOÙ]Ù]Ü[Û\ÜÏHYÙHØØ]ÛÝ[H[\ÏÜÜ[Ü[Û\ÜÏH^[X\ÝÉÚ\Ñ^[YÈ	ÈÜ[È	ÉßH¸¥¯ÜÜ[Ù]	Ú\Ñ^[YÈ]Û\ÜÏHØ]Z][\ÈØØ]][\ËX\
+][HO]Û\ÜÏHØ]Z][H]Ý[OH^HÜ[Ý[OHÛ]ÙZYÚÚ][K[X\HÈ
+
+HÚ][K[Y_OÜÜ[	Ú][KÝHÈÜ[Ý[OHÛÛÜ\K]^\ÙXÊNÙÛ\Ú^NL\ÛX\Ú[[Y¸ %	Ú][KÝ_OÜÜ[	ÉßBÙ]]Ý[OH\Ü^N^Ø[YÛZ][\ÎÙ[\ÙØ\Ü[Ý[OHÛ\Ú^NL\ØÛÛÜ\K]^\ÙXÊNÙÛY[Z[N[ÛÜÜXÙHÚ][K\_OÜÜ[	Ú][K[X\HÈ	ÏÜ[Û\ÜÏHYÙHYÙK\[X\H[X\OÜÜ[È	ÉßBÙ]Ù]
+KÚ[	ÉÊ_OÙ]	ÉßBÙ]ÂJKÚ[	ÉÊNÂB[Ý[ÛÙÙÛP\ÜÙ]Ø]
+Y
+HÂ^[Y\ÜÙ]Ø]H^[Y\ÜÙ]Ø]OOHYÈ[YÂ[\\ÜÙ]Ê
+NÂB[Ý[Û[\\ÜÙ]Ê
+HÂ[\\ÜÙ]ÊØÝ[Y[Ù][[Y[RY
+	Ø\ÜÙ]ÙX\Ú	ÊK[YJNÂBËÈ8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥dËÈÐSTÈÓÓUTSËÈ8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d[Ý[Û[\Ø[\Ê
+HÂÛÛÝÛÛZ[\HØÝ[Y[Ù][[Y[RY
+	ÜØ[\Ó\Ý	ÊNÂÛÛZ[\[\SHÐST×ÕÓÓËX\
+ÛÛOÂÛÛÝ\Ñ^[YH^[YØ[\ÕÛÛOOHÛÛYÂÛÛÝÝ]\ÐÛ\ÜÈH	ØYÙKIÈ
+ÈÛÛÝ]\ÎÂÛÛÝÝ]\ÓX[HÛÛÝ]\ËÚ\]
+
+KÕ\\Ø\ÙJ
+H
+ÈÛÛÝ]\ËÛXÙJJNÂ]\]Û\ÜÏHØ\Ë\Y]Û\ÜÏHØ]ZXY\ÛÛXÚÏHÙÙÛTØ[\ÕÛÛ
+	ÉÝÛÛYIÊHÝ[OHXÚÙÜÝ[\K]Ú]JH]Û\ÜÏHXÛÛXÞXÛÛXÞ[ÈÝ[OHXÚÙÜÝ[ÑQQHÝÛÛXÛÛOÙ]]Ý[OH^H]Ý[OH\Ü^N^Ø[YÛZ][\ÎÙ[\ÙØ\Ü[Ý[OHÛ\Ú^NM\ÙÛ]ÙZYÚÌÝÛÛX[OÜÜ[Ü[Û\ÜÏHYÙH	ÜÝ]\ÐÛ\ÜßHÜÝ]\ÓX[OÜÜ[Ù]]Ý[OHÛ\Ú^NLØÛÛÜ\K]^\ÙXÊNÛX\Ú[]ÜÝÛÛ\ØÜ\[ÛOÙ]Ù]Ü[Û\ÜÏH^[X\ÝÉÚ\Ñ^[YÈ	ÈÜ[È	ÉßH¸¥¯ÜÜ[Ù]	Ú\Ñ^[YÈ]Ý[OHÜ\]Ü\ÛÛY\KXÜ\NÜY[ÎMM
+Î]Ý[OHÛ\Ú^NLÙÛ]ÙZYÚØÛÛÜ\K]^\ÙXÊNÛX\Ú[XÝÛNÝ^][ÙÜN\\Ø\ÙNÛ]\\ÜXÚ[Î\[ÛY\ÏÙ]	ÝÛÛ]Z[ËX\
+O]Ý[OHÛ\Ú^NLÜÜY[ÎÙ\Ü^N^Ø[YÛZ][\ÎÙ[\ÙØ\Ü[Ý[OHÛÛÜ\K]X[
+NÙÛ]ÙZYÚÌ¸ (ÜÜ[	ÙOÙ]
+KÚ[	ÉÊ_B	ÝÛÛÝ]\ÈOOH	ÜXYIÈÈ	Ï]ÛÛ\ÜÏHÙ[X\ÚÈÛ]YHÈÙ[\]H8¡¤Ø]ÛÈ]Ý[OHX\Ú[]ÜLÙÛ\Ú^NLØÛÛÜ\K]^\ÙXÊNÙÛ\Ý[N][XÈ[Û]YHZ[H	ÝÛÛX[ÓÝÙ\Ø\ÙJ
+_HÈÜX]H\ÈÛÛÙ]BÙ]	ÉßBÙ]ÂJKÚ[	ÉÊNÂB[Ý[ÛÙÙÛTØ[\ÕÛÛ
+Y
+HÂ^[YØ[\ÕÛÛH^[YØ[\ÕÛÛOOHYÈ[YÂ[\Ø[\Ê
+NÂBËÈ8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥dËÈÓÐÒPSQQPBËÈ8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d[Ý[Û[\ÛØÚX[
+
+HÂËÈ[\ÂØÝ[Y[Ù][[Y[RY
+	ÜÛØÚX[\[\ÉÊK[\SH]Û\ÜÏH^XÛÛÐÓÓSÔSTËX\
+O]Û\ÜÏHØ\]Ý[OH\Ü^N^Ø[YÛZ][\ÎÙ[\ÙØ\LÛX\Ú[XÝÛNLÜ[Û\ÜÏH[\YÝ[\YÝ[ÈÝ[OHXÚÙÜÝ[ÜÛÛÜHÜÜ[Ü[Ý[OHÛ\Ú^NMÙÛ]ÙZYÚÌÜX[OÜÜ[Ù]]Ý[OHÛ\Ú^NLÜØÛÛÜ\K]^\ÙXÊNÛX\Ú[XÝÛNLÛ[KZZYÚKHÜ\ØÜ\[ÛOÙ]]Ý[OHÛ\Ú^NLÙÛ]ÙZYÚØÛÛÜ\K]^\ÙXÊNÛX\Ú[XÝÛNÝ^][ÙÜN\\Ø\ÙNÛ]\\ÜXÚ[Î\ÜÝYX\ÏÙ]	Ü^[\\ËX\
+^O]Ý[OHÛ\Ú^NLÜÜY[ÎÜÙ\Ü^N^Ø[YÛZ][\ÎÙ[\ÙØ\Ü[Ý[OHÛÛÜÜÛÛÜH¸¡¤ÜÜ[	Ù^OÙ]
+KÚ[	ÉÊ_BÙ]
+KÚ[	ÉÊ_OÙ]ÂËÈØ[[\ÛÛÝ[\X\HßNÂÓÓSÔSTËÜXXÚ
+O[\X\ÜYHH
+NÂØÝ[Y[Ù][[Y[RY
+	ÜÛØÚX[XØ[[\ÊK[\SH]Û\ÜÏHØ\Ë\Y]Û\ÜÏHØ[ZXY\]^OÙ]]ÛÛ[Ù]]ÜX]Ù]Ù]	ÐÐSSTÕÑQRËX\
+^HOÂÛÛÝH[\X\Ù^K[\NÂ]\]Û\ÜÏHØ[\ÝÈ]Ý[OHÛ\Ú^NMÙÛ]ÙZYÚÌÙ^K^_OÙ]]Ý[OH\Ü^N^Ø[YÛZ][\ÎÙ[\ÙØ\Ü[Û\ÜÏH[\YÝÝ[OHXÚÙÜÝ[ÜÈÛÛÜ	Ý\K]^\ÙXÊIßHÜÜ[Ü[Ý[OHÛ\Ú^NLÜÙ^KÜÝOÜÜ[Ù]Ü[Û\ÜÏHYÙHYÙK[]]YÙ^KÜX]OÜÜ[Ù]ÂJKÚ[	ÉÊ_BÙ]ÂËÈ\ÚYÜÂØÝ[Y[Ù][[Y[RY
+	ÜÛØÚX[Z\ÚYÜÉÊK[\SH]Û\ÜÏH^XÛÛ	ÓØXÝ[Y\ÊTÒQ×ÔÑUÊKX\
+
+ÚÙ^KÙ]JHO]Û\ÜÏHØ\]Ý[OHÛ\Ú^NMÙÛ]ÙZYÚÌØÛÛÜÜÙ]ÛÛÜNÛX\Ú[XÝÛNLÜÙ]X[OÙ]]Ý[OH\Ü^N^Ù^]Ü\Ü\ÙØ\	ÜÙ]YÜËX\
+YÈOÜ[Û\ÜÏH\ÚYÈÝ[OHXÚÙÜÝ[ÜÙ]ÛÛÜLLÝYßOÜÜ[
+KÚ[	ÉÊ_BÙ]Ù]
+KÚ[	ÉÊ_B]Û\ÜÏH[ËXÞÝÛÏ\ØYÙH\ÜÝÛÏZ^LÈÛÜHYÜÈ
+ÈËMÛHH[][Ø]YÛÜHÙ]
+ÈLÈÛÛ[][]HYÜÈ\ÜÝÙY\Ý[[\MH\ÚYÜÈÜ\ÝXXÚÙ]Ù]ÂËÈ]Ü\ÂØÝ[Y[Ù][[Y[RY
+	ÜÛØÚX[\]Ü\ÉÊK[\SH]Û\ÜÏHÜY\]Ü\È	ÔUÔTËX\
+O]Û\ÜÏHØ\^XÙ[\Ý[OHY[Î]Ý[OHÛ\Ú^NÌÛX\Ú[XÝÛNÜXÛÛOÙ]]Ý[OHÛ\Ú^NM\ÙÛ]ÙZYÚÌÛX\Ú[XÝÛNÜX[OÙ]]Ý[OHÛ\Ú^NLÜØÛÛÜ\K]X[Y\ÊNÙÛ]ÙZYÚLÜ[_OÙ]Ù]
+KÚ[	ÉÊ_BÙ]ÂBËÈÛØÚX[XÂØÝ[Y[Ù][[Y[RY
+	ÜÛØÚX[XÉÊKY][\Ý[\	ØÛXÚÉËHOÂÛÛÝHK\Ù]ÛÜÙ\Ý
+	ËXXÊNÂY
+XH]\ÂØÝ[Y[]Y\TÙ[XÝÜ[
+	ÈÜÛØÚX[XÈXXÊKÜXXÚ
+OÛ\ÜÓ\Ý[[ÝJ	ØXÝ]IÊJNÂÛ\ÜÓ\ÝY
+	ØXÝ]IÊNÂØÝ[Y[]Y\TÙ[XÝÜ[
+	ËÛØÚX[]XÊKÜXXÚ
+OÝ[K\Ü^HH	ÛÛIÊNÂØÝ[Y[Ù][[Y[RY
+	ÜÛØÚX[IÈ
+È]\Ù]XKÝ[K\Ü^HH	ÉÎÂJNÂËÈ8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥dËÈSÕRQSSTÈ8 %ÐÕSQSÂËÈ8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d[Ý[Û[\ØÜÊ
+HÂØÝ[Y[Ù][[Y[RY
+	ÙØÓ\Ý	ÊK[\SHÐÕSQSËX\
+
+ØËJHOHYHÉÙØË[_H\Ù]HØ[ÈÛ\ÜÏHØË\ÝÈÝ[OHÚHÐÕSQSË[ÝHHÈ	ØÜ\XÝÛN\ÛÛYÑ	È	ÉßH]Ý[OH\Ü^N^Ø[YÛZ][\ÎÙ[\ÙØ\Ù^NÛZ[]ÚYÜ[Û\ÜÏHØËZXÛÛÙØË\HOOH	ÔÈÈ	ü'äá	ÈØË\HOOH	Ñ^Ù[	ÈÈ	ü'äâÈ	ü'äçIßOÜÜ[Ü[Ý[OHÛ\Ú^NLÜÙÛ]ÙZYÚLÛÝ\ÝÎY[Ý^[Ý\ÝÎ[\Ú\ÎÝÚ]K\ÜXÙNÝÜ\ÙØË[Y_OÜÜ[Ù]]Ý[OH\Ü^N^ÙØ\Ø[YÛZ][\ÎÙ[\Ù^\Ú[ÎÜ[Û\ÜÏHYÙHYÙK[]]YÙØË\_OÜÜ[Ü[Ý[OHÛ\Ú^NL\ØÛÛÜ\K]^\ÙXÊHÙØË]_OÜÜ[Ü[Ý[OHÛ\Ú^NLØÛÛÜ\K]X[
+NÙÛ]ÙZYÚY]È8¡¤ÜÜ[Ù]ØO
+KÚ[	ÉÊNÂBËÈ8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥dËÈTÔÕÓÔÐUBËÈ8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥dÛÛÝSÐÒ×ÒÑVHH	ØYÙ[ÞIÎÂ[Ý[Û][\[ØÚÊ
+HÂÛÛÝ[]HØÝ[Y[Ù][[Y[RY
+	Ý[ØÚÒ[]	ÊNÂÛÛÝ\ÙÈHØÝ[Y[Ù][[Y[RY
+	Ý[ØÚÓ\ÙÉÊNÂY
+[][YHOOHSÐÒ×ÒÑVJHÂØÝ[Y[ÙKÛ\ÜÓ\ÝY
+	Ý[ØÚÙY	ÊNÂËÈ[ØÚÈ[ØÚÙY]]ÛÂØÝ[Y[]Y\TÙ[XÝÜ[
+	Ë]XØÚÙY	ÊKÜXXÚ
+OÛ\ÜÓ\Ý[[ÝJ	ÛØÚÙY	ÊJNÂËÈ]YØ]HÈÛYHY\[ØÚÂ]YØ]UÊ	ÚÛYIÊNÂH[ÙHÂ\ÙË^ÛÛ[H	Ò[ÛÜXÝ\ÜÝÛÜ	ÎÂ[][YHH	ÉÎÂÙ][Y[Ý]
+
+
+HO\ÙË^ÛÛ[H	ÉË
+NÂBBËÈÝ\YH]YØ]UÈÈ\ÜXÝØÚÜÂÛÛÝÛÜYÓ]YØ]UÈH]YØ]UÎÂ]YØ]UÈH[Ý[ÛY]ÒY
+HÂÛÛÝHØÝ[Y[]Y\TÙ[XÝÜ	Ë]XÙ]K]Y]ÏHÈ
+ÈY]ÒY
+È	ÈIÊNÂY
+	Û\ÜÓ\ÝÛÛZ[Ê	ÛØÚÙY	ÊJH]\ÂÛÜYÓ]YØ]UÊY]ÒY
+NÂNÂËÈ8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥dËÈSUËÈ8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d8¥d[\\ÜÙ]Ê
+NÂ[\Ø[\Ê
+NÂ[\ÛØÚX[
+
+NÂ[\ØÜÊ
+NÂÜØÜ\ØÙOÚ[
