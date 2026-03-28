@@ -237,6 +237,24 @@
     font-size: 13px;
   }
   .cat-item:not(:last-child) { border-bottom: 1px solid #F0F0F0; }
+  .cat-item:hover { background: #FAFAFA; }
+  .dl-btn {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 10px; border-radius: 5px; font-size: 11px; font-weight: 600;
+    color: var(--teal-dark); background: rgba(52,214,209,0.08);
+    border: 1px solid rgba(52,214,209,0.2); cursor: pointer;
+    text-decoration: none; transition: all 0.15s; white-space: nowrap;
+  }
+  .dl-btn:hover { background: rgba(52,214,209,0.18); border-color: rgba(52,214,209,0.4); }
+  .dl-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
+  .drive-open-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 600;
+    color: var(--white); background: var(--teal); border: none; cursor: pointer;
+    text-decoration: none; transition: all 0.15s; margin-top: 10px;
+  }
+  .drive-open-btn:hover { background: var(--teal-dark); }
+  .drive-open-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
 
   /* ─── Calendar row ─── */
   .cal-header, .cal-row {
@@ -368,7 +386,7 @@
 </head>
 <body>
 
-<!-- ═══════════════════ HEADER ═══════════════════ -->
+<!-- ═══════════════════ HEADER ══════════════════════ -->
 <div class="header">
   <div class="header-inner">
     <div>
@@ -609,7 +627,7 @@
       <!-- Wholesale Menu -->
       <a href="https://drive.google.com/drive/folders/1c-aGDOUeh7Wn3YLBjpiy1YGPF8Og6uLA" target="_blank" class="card hoverable" style="text-decoration:none;color:var(--text);cursor:pointer">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-          <div class="icon-box" style="background:rgba(52,214,209,0.08);font-size:24px">📄</div>
+          <div class="icon-box" style="background:rgba(52,214,209,0.08);font-size:24px">🔄</div>
           <div>
             <div style="font-size:16px;font-weight:700">Wholesale Menu</div>
             <span class="badge badge-ready">Current</span>
@@ -639,7 +657,7 @@
       <!-- Bulk Menu -->
       <a href="https://drive.google.com/drive/folders/14TUCVKmo6s2QdMyzQS1hWpR-ucZf3IoG" target="_blank" class="card hoverable" style="text-decoration:none;color:var(--text);cursor:pointer">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-          <div class="icon-box" style="background:rgba(124,77,255,0.08);font-size:24px">📄</div>
+          <div class="icon-box" style="background:rgba(124,77,255,0.08);font-size:24px">🔄</div>
           <div>
             <div style="font-size:16px;font-weight:700">Bulk Menu</div>
             <span class="badge" style="background:#E3F2FD;color:#1565C0">Bulk Pricing</span>
@@ -762,6 +780,7 @@
 
 const ASSET_CATEGORIES = [
   { id:"logos", label:"Logos", icon:"◎", count:12,
+    driveUrl:"https://drive.google.com/drive/folders/1FZKCoU9JxLfNUSxnYRMixdp8nfPn0y3U",
     description:"Full Vertical, Combined Horizontal — all color variants (.ai, .eps, .png, .jpg)",
     items:[
       {name:"Full Vertical — Black (K)",type:".ai / .eps / .png",primary:true},
@@ -772,6 +791,7 @@ const ASSET_CATEGORIES = [
       {name:"Puffin Mascot — Standalone",type:".ai / .png",primary:false},
     ]},
   { id:"fonts", label:"Fonts", icon:"Aa", count:6,
+    driveUrl:"https://drive.google.com/drive/folders/1Hj9zNEHfya1thdzODJlXjtD3qJ4qeTZb",
     description:"Print and web typefaces with usage guidelines",
     items:[
       {name:"Kimberley BL",type:"Display / Print",primary:true,note:"Headlines, packaging"},
@@ -781,6 +801,7 @@ const ASSET_CATEGORIES = [
       {name:"Roboto",type:"Web — Google Font",primary:false,note:"Body text, descriptions"},
     ]},
   { id:"renders", label:"Product Renders", icon:"🎨", count:30,
+    driveUrl:"https://drive.google.com/drive/folders/1fTeOwuylvFTUuNnzDgj_tJ8H6pOKk7t_",
     description:"3D product renders by SKU — packaged and unpackaged views",
     items:[
       {name:"Flower — 3.5g Mylar Bag",type:".png (transparent)",primary:true},
@@ -793,6 +814,7 @@ const ASSET_CATEGORIES = [
       {name:"Dripper — 1G",type:".png (transparent)",primary:false},
     ]},
   { id:"packaging", label:"Packaging Files", icon:"📦", count:20,
+    driveUrl:"https://drive.google.com/drive/folders/10HytZQaWWskN1T1HMu1FfpS0gDXuvKgb",
     description:"Dielines, print-ready files, and packaging specs by product line",
     items:[
       {name:"Flower Mylar — All Sizes",type:".ai / .pdf",primary:true},
@@ -803,6 +825,7 @@ const ASSET_CATEGORIES = [
       {name:"Shipping Labels & Inserts",type:".ai / .pdf",primary:false},
     ]},
   { id:"lifestyle", label:"Lifestyle & Photography", icon:"📸", count:50,
+    driveUrl:"https://drive.google.com/drive/folders/15t2LVPe0VQ9qZse93xXMAaYhw9POi5Wn",
     description:"Product photography, lifestyle shots, and social-ready images",
     items:[
       {name:"Product Flatlay Collection",type:".jpg / .png",primary:true},
@@ -812,6 +835,7 @@ const ASSET_CATEGORIES = [
       {name:"Event / Pop-Up Photos",type:".jpg",primary:false},
     ]},
   { id:"templates", label:"Templates", icon:"📐", count:8,
+    driveUrl:"https://drive.google.com/drive/folders/1LxaYqehfO1rnFHRIq0jafAsMWV0BVTxf",
     description:"Reusable design templates for common collateral",
     items:[
       {name:"Instagram Post (1080×1080)",type:".psd / .ai",primary:true},
@@ -948,8 +972,13 @@ function renderAssets(filter) {
             <div style="display:flex;align-items:center;gap:8px">
               <span style="font-size:11px;color:var(--text-sec);font-family:monospace">${item.type}</span>
               ${item.primary ? '<span class="badge badge-primary">Primary</span>' : ''}
+              <a href="${cat.driveUrl}" target="_blank" class="dl-btn" onclick="event.stopPropagation()" title="Open in Google Drive"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download</a>
             </div>
-          </div>`).join('')}</div>` : ''}
+          </div>`).join('')}
+          <div style="padding:8px 20px 14px 78px;border-top:1px solid #F0F0F0;background:#FAFBFC">
+            <a href="${cat.driveUrl}" target="_blank" class="drive-open-btn" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Open all ${cat.label} in Google Drive</a>
+          </div>
+          </div>` : ''}
       </div>`;
   }).join('');
 }
