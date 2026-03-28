@@ -286,7 +286,7 @@
   /* ─── Strain swatches ─── */
   .swatch {
     width: 44px; height: 44px; border-radius: 8px;
-    margin-bottom: 6px; display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 6px auto; display: flex; align-items: center; justify-content: center;
   }
 
   /* ─── Info box ─── */
@@ -725,45 +725,275 @@
   <div class="view" id="view-brand">
     <div class="section-header">
       <div>
-        <div class="section-title">Brand Guidelines Generator</div>
-        <div class="section-subtitle">Create custom brand guideline PDFs tailored by audience, then email them directly</div>
+        <div class="section-title">Brand Guidelines</div>
+        <div class="section-subtitle">Complete brand identity, voice, and visual standards for thisthat™</div>
       </div>
     </div>
 
-    <div class="info-box mb-20" style="font-size:13px">
-      <strong>How it works:</strong> Select an audience type below, choose which sections to include, add a recipient, and Claude will generate a custom PDF and draft an email with the guidelines attached.
+    <div class="tab-bar" id="brandTabs">
+      <button class="tab-btn active" data-tab="brand-identity">Identity</button>
+      <button class="tab-btn" data-tab="brand-visual">Visual</button>
+      <button class="tab-btn" data-tab="brand-voice">Voice & Tone</button>
+      <button class="tab-btn" data-tab="brand-products">Products</button>
+      <button class="tab-btn" data-tab="brand-generator">Generator</button>
+      <button class="tab-btn" data-tab="brand-docs">Documents</button>
     </div>
 
-    <div class="grid-audiences">
-      <div class="card hoverable clickable text-center" style="padding:20px">
-        <div style="font-size:28px;margin-bottom:8px">📦</div>
-        <div style="font-size:14px;font-weight:700;margin-bottom:4px">Wholesale Partner</div>
-        <div style="font-size:12px;color:var(--text-sec)">Product specs, sizes, case packs, menus, brand story</div>
+    <!-- IDENTITY TAB -->
+    <div id="brand-identity" class="brand-tab">
+      <div class="card mb-20" style="padding:24px">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+          <div style="font-size:36px">🐧</div>
+          <div>
+            <div style="font-size:20px;font-weight:700">thisthat™</div>
+            <div style="font-size:13px;color:var(--text-sec)">This & That Guys LLC — Hemp-derived cannabis brand</div>
+          </div>
+        </div>
+        <div style="font-size:14px;line-height:1.7;color:var(--text);margin-bottom:16px">
+          thisthat™ (always lowercase, one word) is a premium hemp-derived cannabis brand built on one principle: <strong>real cannabis, nothing artificial</strong>. Every product starts with living-soil-grown flower and uses true live resin or solventless live rosin extraction — never distillate blends, never synthetic cannabinoids.
+        </div>
+        <div style="font-size:13px;font-style:italic;color:var(--teal-dark);padding:14px;background:var(--teal-light);border-radius:8px;line-height:1.6">
+          "Pop one in, feel the groove. thisthat makes your day improve."
+        </div>
       </div>
-      <div class="card hoverable clickable text-center" style="padding:20px">
-        <div style="font-size:28px;margin-bottom:8px">🏪</div>
-        <div style="font-size:14px;font-weight:700;margin-bottom:4px">Retail / Dispensary</div>
-        <div style="font-size:12px;color:var(--text-sec)">Brand overview, products, voice, social, and display info</div>
+
+      <!-- Key Differentiator -->
+      <div class="card mb-20" style="padding:20px;border-left:4px solid var(--teal)">
+        <div style="font-size:12px;font-weight:700;color:var(--teal-dark);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Key Differentiator</div>
+        <div style="font-size:14px;line-height:1.7">
+          True live resin &amp; solventless live rosin extraction. No distillate blends. No synthetic cannabinoid cocktails (Delta-8, THCP, Delta-10). Pure, single-source THCA &amp; Delta-9 from real cannabis flower. Living soil grown.
+        </div>
       </div>
-      <div class="card hoverable clickable text-center" style="padding:20px">
-        <div style="font-size:28px;margin-bottom:8px">🎨</div>
-        <div style="font-size:14px;font-weight:700;margin-bottom:4px">Designer / Vendor</div>
-        <div style="font-size:12px;color:var(--text-sec)">Visual identity, colors, fonts, assets, voice guidelines</div>
+
+      <!-- Competitive Edge -->
+      <div class="card mb-20" style="padding:20px">
+        <div style="font-size:12px;font-weight:700;color:var(--text-sec);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">Competitive Edge</div>
+        <div class="grid-kpi">
+          <div class="text-center"><div style="font-size:22px;font-weight:800;color:var(--teal-dark)">80–94%</div><div style="font-size:11px;color:var(--text-sec)">Total cannabinoids in vapes</div></div>
+          <div class="text-center"><div style="font-size:22px;font-weight:800;color:var(--teal-dark)">25–39%</div><div style="font-size:11px;color:var(--text-sec)">THCa in flower products</div></div>
+          <div class="text-center"><div style="font-size:22px;font-weight:800;color:var(--teal-dark)">100%</div><div style="font-size:11px;color:var(--text-sec)">Single-source, strain-specific</div></div>
+          <div class="text-center"><div style="font-size:22px;font-weight:800;color:var(--teal-dark)">0%</div><div style="font-size:11px;color:var(--text-sec)">Distillate, synthetics, or blends</div></div>
+        </div>
       </div>
-      <div class="card hoverable clickable text-center" style="padding:20px">
-        <div style="font-size:28px;margin-bottom:8px">📋</div>
-        <div style="font-size:14px;font-weight:700;margin-bottom:4px">Full Guidelines</div>
-        <div style="font-size:12px;color:var(--text-sec)">Everything — complete brand guidelines document</div>
+
+      <!-- Contact & Social -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:14px">
+        <div class="card" style="padding:18px">
+          <div style="font-size:12px;font-weight:700;color:var(--text-sec);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Contact</div>
+          <div style="font-size:13px;line-height:2">
+            <div><strong>Email:</strong> info@thisthatcbd.com</div>
+            <div><strong>Phone:</strong> 503-919-6918</div>
+            <div><strong>Designer:</strong> Frank Zurbano</div>
+          </div>
+        </div>
+        <div class="card" style="padding:18px">
+          <div style="font-size:12px;font-weight:700;color:var(--text-sec);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Social Media</div>
+          <div style="font-size:13px;line-height:2">
+            <div><strong>Instagram:</strong> @thisthat.cbd</div>
+            <div><strong>TikTok:</strong> @thisthat.cbd</div>
+            <div><strong>Facebook / YouTube:</strong> @thisthat.cbd</div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="card text-center" style="padding:20px">
-      <div style="font-size:14px;color:var(--text-sec);margin-bottom:12px">The full interactive Brand Guidelines Dashboard is available as a separate tool.</div>
-      <div style="font-size:13px;line-height:1.6">Tell Claude: <em>"Open the brand guidelines dashboard"</em> or <em>"Generate brand guidelines for [audience]"</em></div>
+    <!-- VISUAL IDENTITY TAB -->
+    <div id="brand-visual" class="brand-tab" style="display:none">
+      <!-- Logo Usage -->
+      <div class="card mb-20" style="padding:24px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:16px">Logo Usage</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:20px">
+          <div style="padding:18px;background:#F8F8FA;border-radius:10px">
+            <div style="font-size:13px;font-weight:700;margin-bottom:6px;color:var(--teal-dark)">Primary — Full Vertical</div>
+            <div style="font-size:12px;color:var(--text-sec);line-height:1.6">Puffin enclosed in a circle with "thisthat" text below. Used for most applications: print, packaging, signage, merch.</div>
+            <div style="margin-top:8px"><span class="badge badge-primary">Default choice</span></div>
+          </div>
+          <div style="padding:18px;background:#F8F8FA;border-radius:10px">
+            <div style="font-size:13px;font-weight:700;margin-bottom:6px">Secondary — Combined Horizontal</div>
+            <div style="font-size:12px;color:var(--text-sec);line-height:1.6">Puffin between "this" and "that". Used ONLY for website and situations where vertical logo can't be used.</div>
+            <div style="margin-top:8px"><span class="badge badge-muted">Limited use</span></div>
+          </div>
+        </div>
+        <div style="margin-top:14px;font-size:12px;color:var(--text-sec)"><strong>Variants:</strong> Black (K), White (KW1), White Alt — available as .ai / .eps / .png / .jpg</div>
+        <div style="margin-top:4px;font-size:12px;color:var(--text-sec)"><strong>Mascot:</strong> Puffin bird — available standalone as .ai / .png</div>
+      </div>
+
+      <!-- Colors -->
+      <div class="card mb-20" style="padding:24px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:16px">Color Palette</div>
+        <div style="display:flex;flex-wrap:wrap;gap:32px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid #F0F0F0">
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--text-sec);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Brand Colors</div>
+            <div style="display:flex;gap:16px">
+              <div class="text-center">
+                <div class="swatch" style="background:#34D6D1;border:1px solid var(--border)"></div>
+                <div style="font-size:12px;font-weight:600;margin-bottom:2px">Teal</div>
+                <div style="font-size:10px;color:var(--text-sec);font-family:monospace;margin-bottom:2px">#34D6D1</div>
+                <div style="font-size:9px;color:#E65100;font-weight:600">Web &amp; email only</div>
+              </div>
+              <div class="text-center">
+                <div class="swatch" style="background:#212121;border:1px solid var(--border)"></div>
+                <div style="font-size:12px;font-weight:600;margin-bottom:2px">Dark</div>
+                <div style="font-size:10px;color:var(--text-sec);font-family:monospace;margin-bottom:2px">#212121</div>
+                <div style="font-size:9px;color:var(--text-sec)">All uses</div>
+              </div>
+              <div class="text-center">
+                <div class="swatch" style="background:#FFFFFF;border:1px solid var(--border)"></div>
+                <div style="font-size:12px;font-weight:600;margin-bottom:2px">White</div>
+                <div style="font-size:10px;color:var(--text-sec);font-family:monospace;margin-bottom:2px">#FFFFFF</div>
+                <div style="font-size:9px;color:var(--text-sec)">All uses</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--text-sec);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Strain Colors</div>
+            <div style="display:flex;gap:16px">
+              <div class="text-center">
+                <div class="swatch" style="background:#FCE4EC;border:1px solid rgba(194,24,91,0.19)"><span style="font-size:12px;font-weight:700;color:#C2185B">I</span></div>
+                <div style="font-size:12px;font-weight:600;color:#C2185B">Indica</div>
+              </div>
+              <div class="text-center">
+                <div class="swatch" style="background:#FFF8E1;border:1px solid rgba(245,127,23,0.19)"><span style="font-size:12px;font-weight:700;color:#F57F17">S</span></div>
+                <div style="font-size:12px;font-weight:600;color:#F57F17">Sativa</div>
+              </div>
+              <div class="text-center">
+                <div class="swatch" style="background:#E8F5E9;border:1px solid rgba(46,125,50,0.19)"><span style="font-size:12px;font-weight:700;color:#2E7D32">H</span></div>
+                <div style="font-size:12px;font-weight:600;color:#2E7D32">Hybrid</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="info-box" style="font-size:12px">
+          <strong>Important:</strong> The teal (#34D6D1) is for digital use only — web, email, social. It is NOT used on packaging or print materials. Print uses black (#212121) and white (#FFFFFF) only.
+        </div>
+      </div>
+
+      <!-- Typography -->
+      <div class="card" style="padding:24px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:16px">Typography</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:20px">
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--text-sec);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Print</div>
+            <div style="font-size:13px;line-height:2">
+              <div><strong>Kimberley BL</strong> — Display headlines, packaging</div>
+              <div><strong>Helvetica Black</strong> — Subheads, emphasis</div>
+              <div><strong>Helvetica Condensed</strong> — Product specs, fine print</div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--text-sec);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Web</div>
+            <div style="font-size:13px;line-height:2">
+              <div><strong style="font-family:Anton,sans-serif;text-transform:uppercase;letter-spacing:0.5px">Anton</strong> — Headings, buttons (UPPERCASE)</div>
+              <div><strong>Roboto</strong> — Body text, descriptions (400/500/700)</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="mt-24">
-      <div class="section-header"><div><div class="section-title">Documents</div><div class="section-subtitle">Brand files available in the workspace</div></div></div>
+    <!-- VOICE & TONE TAB -->
+    <div id="brand-voice" class="brand-tab" style="display:none">
+      <div class="card mb-20" style="padding:24px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:14px">Brand Personality</div>
+        <div style="font-size:14px;line-height:1.7;margin-bottom:16px">
+          thisthat speaks like a knowledgeable friend — confident about quality, laid-back in attitude, and never preachy. The vibe is approachable expertise: we know our craft inside-out but we keep it chill.
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:10px">
+          <div style="padding:12px;background:var(--teal-light);border-radius:8px;text-align:center;font-size:13px;font-weight:600;color:var(--teal-dark)">Confident</div>
+          <div style="padding:12px;background:var(--teal-light);border-radius:8px;text-align:center;font-size:13px;font-weight:600;color:var(--teal-dark)">Approachable</div>
+          <div style="padding:12px;background:var(--teal-light);border-radius:8px;text-align:center;font-size:13px;font-weight:600;color:var(--teal-dark)">Quality-Obsessed</div>
+          <div style="padding:12px;background:var(--teal-light);border-radius:8px;text-align:center;font-size:13px;font-weight:600;color:var(--teal-dark)">Laid-Back</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:14px" class="mb-20">
+        <div class="card" style="padding:20px;border-left:4px solid #2E7D32">
+          <div style="font-size:14px;font-weight:700;color:#2E7D32;margin-bottom:12px">Do Say</div>
+          <div style="font-size:13px;line-height:1.8;color:var(--text)">
+            <div>✓ "True live resin" / "solventless live rosin"</div>
+            <div>✓ "Single-source, strain-specific"</div>
+            <div>✓ "Living soil grown flower"</div>
+            <div>✓ "Pop one in, feel the groove"</div>
+            <div>✓ "Real cannabis, nothing artificial"</div>
+            <div>✓ "Pure THCA &amp; Delta-9"</div>
+          </div>
+        </div>
+        <div class="card" style="padding:20px;border-left:4px solid #C62828">
+          <div style="font-size:14px;font-weight:700;color:#C62828;margin-bottom:12px">Don't Say</div>
+          <div style="font-size:13px;line-height:1.8;color:var(--text)">
+            <div>✗ "CBD brand" (we're cannabis, not just CBD)</div>
+            <div>✗ "Distillate" or "blend" about our products</div>
+            <div>✗ "Cheap" or "budget" — we compete on quality</div>
+            <div>✗ "Synthetic" or "lab-made" in our context</div>
+            <div>✗ Medical claims or health promises</div>
+            <div>✗ "thishat" "this that" or "ThisThat" (wrong)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="padding:20px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:12px">Messaging Pillars</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:14px">
+          <div style="padding:14px;background:#F8F8FA;border-radius:8px">
+            <div style="font-size:13px;font-weight:700;margin-bottom:4px;color:var(--teal-dark)">Quality Over Everything</div>
+            <div style="font-size:12px;color:var(--text-sec);line-height:1.5">Lead with extraction method, potency data, and single-source sourcing. Let the product speak.</div>
+          </div>
+          <div style="padding:14px;background:#F8F8FA;border-radius:8px">
+            <div style="font-size:13px;font-weight:700;margin-bottom:4px;color:#7C4DFF">Transparency</div>
+            <div style="font-size:12px;color:var(--text-sec);line-height:1.5">No hidden ingredients, no vague labels. Every product is what it says — strain-specific, lab-tested.</div>
+          </div>
+          <div style="padding:14px;background:#F8F8FA;border-radius:8px">
+            <div style="font-size:13px;font-weight:700;margin-bottom:4px;color:#FF6D00">Culture &amp; Community</div>
+            <div style="font-size:12px;color:var(--text-sec);line-height:1.5">Celebrate the culture, support the community. thisthat is for real people who care about what they consume.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCTS TAB -->
+    <div id="brand-products" class="brand-tab" style="display:none">
+      <div class="info-box mb-20">
+        <strong>6 product lines</strong> — all hemp-derived, all using true live resin or solventless live rosin extraction. Every product is strain-specific with Indica / Sativa / Hybrid color coding.
+      </div>
+      <div id="brandProductList" class="flex-col"></div>
+    </div>
+
+    <!-- GENERATOR TAB -->
+    <div id="brand-generator" class="brand-tab" style="display:none">
+      <div class="info-box mb-20" style="font-size:13px">
+        <strong>How it works:</strong> Select an audience type below, choose which sections to include, add a recipient, and Herman will generate a custom PDF and draft an email with the guidelines attached.
+      </div>
+
+      <div class="grid-audiences">
+        <div class="card hoverable clickable text-center" style="padding:20px">
+          <div style="font-size:28px;margin-bottom:8px">📦</div>
+          <div style="font-size:14px;font-weight:700;margin-bottom:4px">Wholesale Partner</div>
+          <div style="font-size:12px;color:var(--text-sec)">Product specs, sizes, case packs, menus, brand story</div>
+        </div>
+        <div class="card hoverable clickable text-center" style="padding:20px">
+          <div style="font-size:28px;margin-bottom:8px">🏪</div>
+          <div style="font-size:14px;font-weight:700;margin-bottom:4px">Retail / Dispensary</div>
+          <div style="font-size:12px;color:var(--text-sec)">Brand overview, products, voice, social, and display info</div>
+        </div>
+        <div class="card hoverable clickable text-center" style="padding:20px">
+          <div style="font-size:28px;margin-bottom:8px">🎨</div>
+          <div style="font-size:14px;font-weight:700;margin-bottom:4px">Designer / Vendor</div>
+          <div style="font-size:12px;color:var(--text-sec)">Visual identity, colors, fonts, assets, voice guidelines</div>
+        </div>
+        <div class="card hoverable clickable text-center" style="padding:20px">
+          <div style="font-size:28px;margin-bottom:8px">📋</div>
+          <div style="font-size:14px;font-weight:700;margin-bottom:4px">Full Guidelines</div>
+          <div style="font-size:12px;color:var(--text-sec)">Everything — complete brand guidelines document</div>
+        </div>
+      </div>
+
+      <div class="card text-center" style="padding:20px;margin-top:14px">
+        <div style="font-size:13px;line-height:1.6">Tell Herman: <em>"Generate brand guidelines for [audience]"</em> to create a custom PDF and email it directly.</div>
+      </div>
+    </div>
+
+    <!-- DOCUMENTS TAB -->
+    <div id="brand-docs" class="brand-tab" style="display:none">
       <div class="card no-pad" id="docList"></div>
     </div>
   </div>
@@ -912,6 +1142,27 @@ const DOCUMENTS = [
   {name:"thisthat_Product_Descriptions.docx",type:"Word",date:"Mar 22, 2026",file:"thisthat_Product_Descriptions.docx"},
 ];
 
+const BRAND_PRODUCTS = [
+  { label:"Flower", icon:"🌿", sizes:"3.5g, 7g, 14g, 28g", type:"THCa",
+    desc:"Living-soil-grown, single-source flower. 25–39% THCa. Strain-specific — never blended.",
+    strains:"Indica, Sativa, Hybrid"},
+  { label:"Gummies", icon:"🍬", sizes:"5mg (3ct / 30ct), 25mg (3ct / 30ct)", type:"Delta-9",
+    desc:"Precise-dosed hemp-derived Delta-9 gummies. Real fruit flavors, clean ingredients.",
+    strains:"Indica, Sativa, Hybrid"},
+  { label:"Disposable Vapes", icon:"💨", sizes:"1G, 2G", type:"Live Resin & Rosin",
+    desc:"True live resin and live rosin disposables. 80–94% total cannabinoids. No distillate.",
+    strains:"Indica, Sativa, Hybrid"},
+  { label:"Dabs", icon:"🔥", sizes:"1G jar", type:"Solventless Live Rosin",
+    desc:"Solventless live rosin dabs. Ice-water extracted, strain-specific concentrate.",
+    strains:"Indica, Sativa, Hybrid"},
+  { label:"510 Carts", icon:"🔋", sizes:"1G", type:"Live Resin",
+    desc:"True live resin 510-thread cartridges. Full-spectrum, strain-specific.",
+    strains:"Indica, Sativa, Hybrid"},
+  { label:"Drippers", icon:"💧", sizes:"1G", type:"Liquid THCa",
+    desc:"Liquid THCa drippers for versatile use. Strain-specific formulations.",
+    strains:"Indica, Sativa, Hybrid"},
+];
+
 // ═══════════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════════
@@ -1018,7 +1269,7 @@ function renderSales() {
           <div style="border-top:1px solid var(--border);padding:14px 20px 14px 78px">
             <div style="font-size:12px;font-weight:600;color:var(--text-sec);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Includes</div>
             ${tool.details.map(d => `<div style="font-size:13px;padding:4px 0;display:flex;align-items:center;gap:8px"><span style="color:var(--teal);font-weight:700">•</span> ${d}</div>`).join('')}
-            ${tool.status === 'ready' ? '<button class="gen-btn">Ask Claude to generate →</button>' : `<div style="margin-top:12px;font-size:12px;color:var(--text-sec);font-style:italic">Tell Claude "build the ${tool.label.toLowerCase()}" to create this tool</div>`}
+            ${tool.status === 'ready' ? '<button class="gen-btn">Ask Herman to generate →</button>' : `<div style="margin-top:12px;font-size:12px;color:var(--text-sec);font-style:italic">Tell Herman "build the ${tool.label.toLowerCase()}" to create this tool</div>`}
           </div>` : ''}
       </div>`;
   }).join('');
@@ -1100,6 +1351,35 @@ document.getElementById('socialTabs').addEventListener('click', e => {
 });
 
 // ═══════════════════════════════════════════════════
+// BRAND GUIDELINES — TABS & PRODUCTS
+// ═══════════════════════════════════════════════════
+document.getElementById('brandTabs').addEventListener('click', e => {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  document.querySelectorAll('#brandTabs .tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.brand-tab').forEach(t => t.style.display = 'none');
+  document.getElementById(btn.dataset.tab).style.display = '';
+});
+
+function renderBrandProducts() {
+  const strainColors = {Indica:'#C2185B', Sativa:'#F57F17', Hybrid:'#2E7D32'};
+  document.getElementById('brandProductList').innerHTML = BRAND_PRODUCTS.map(p => `
+    <div class="card" style="padding:20px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div class="icon-box" style="background:#F5F5F5;font-size:22px">${p.icon}</div>
+        <div style="flex:1">
+          <div style="font-size:16px;font-weight:700">${p.label}</div>
+          <div style="font-size:12px;color:var(--text-sec)">${p.type}</div>
+        </div>
+        <div style="display:flex;gap:4px">${p.strains.split(', ').map(s => `<span style="font-size:9px;font-weight:700;padding:3px 7px;border-radius:4px;background:${strainColors[s]}18;color:${strainColors[s]}">${s}</span>`).join('')}</div>
+      </div>
+      <div style="font-size:13px;color:var(--text-sec);line-height:1.6;margin-bottom:8px">${p.desc}</div>
+      <div style="font-size:12px"><strong>Sizes:</strong> ${p.sizes}</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════
 // BRAND GUIDELINES — DOCUMENTS
 // ═══════════════════════════════════════════════════
 function renderDocs() {
@@ -1152,6 +1432,7 @@ navigateTo = function(viewId) {
 renderAssets();
 renderSales();
 renderSocial();
+renderBrandProducts();
 renderDocs();
 </script>
 </body>
